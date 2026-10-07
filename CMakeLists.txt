@@ -16,8 +16,23 @@ target_include_directories(name_generator PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-add_executable(name_generator_cli src/NameGeneratorCli.cpp)
-target_link_libraries(name_generator_cli PRIVATE NameGenerator::NameGenerator)
+if(EMSCRIPTEN)
+    add_executable(name_generator_wasm src/NameGeneratorWasm.cpp)
+    target_link_libraries(name_generator_wasm PRIVATE NameGenerator::NameGenerator)
+    target_link_options(name_generator_wasm PRIVATE
+        --bind
+        -sMODULARIZE=1
+        -sEXPORT_ES6=1
+        -sEXPORT_NAME=createNameGenerator
+        -sENVIRONMENT=web
+        -sALLOW_MEMORY_GROWTH=1)
+    set_target_properties(name_generator_wasm PROPERTIES
+        OUTPUT_NAME name_generator
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/web/public/wasm")
+else()
+    add_executable(name_generator_cli src/NameGeneratorCli.cpp)
+    target_link_libraries(name_generator_cli PRIVATE NameGenerator::NameGenerator)
+endif()
 
 if(MSVC)
     target_compile_options(name_generator PRIVATE /W4 /permissive- /utf-8 /Zc:__cplusplus)

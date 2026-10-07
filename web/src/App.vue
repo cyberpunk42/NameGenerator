@@ -24,31 +24,33 @@ interface NameResult {
   profile: NameProfile
 }
 
-interface GeneratorResponse {
-  names: string[]
-  error?: string
+interface WasmGenerator {
+  generateName(seed: string, kind: number, profile: number): string
 }
 
-const kinds: { value: NameKind; label: string }[] = [
-  { value: 'generic', label: 'Generic' },
-  { value: 'river', label: 'River' },
-  { value: 'ocean-current', label: 'Ocean current' },
+type WasmFactory = (options?: { locateFile?: (path: string) => string }) => Promise<WasmGenerator>
+
+const kinds: { value: NameKind; label: string; code: number }[] = [
+  { value: 'generic', label: 'Generic', code: 0 },
+  { value: 'river', label: 'River', code: 1 },
+  { value: 'ocean-current', label: 'Ocean current', code: 2 },
 ]
 
-const profiles: { value: NameProfile; label: string; family: string }[] = [
-  { value: 'generic', label: 'Generic', family: 'Foundational' },
-  { value: 'quenya-inspired', label: 'Quenya-inspired', family: 'Elven' },
-  { value: 'sindarin-inspired', label: 'Sindarin-inspired', family: 'Elven' },
-  { value: 'english', label: 'English', family: 'Language' },
-  { value: 'french', label: 'French', family: 'Language' },
-  { value: 'german', label: 'German', family: 'Language' },
-  { value: 'orcish', label: 'Orcish', family: 'Fantasy' },
-  { value: 'gnomish', label: 'Gnomish', family: 'Fantasy' },
-  { value: 'infernal', label: 'Infernal', family: 'Otherworldly' },
-  { value: 'abyssal', label: 'Abyssal', family: 'Otherworldly' },
-  { value: 'cthulhu-mythos-inspired', label: 'Cthulhu Mythos-inspired', family: 'Otherworldly' },
+const profiles: { value: NameProfile; label: string; family: string; code: number }[] = [
+  { value: 'generic', label: 'Generic', family: 'Foundational', code: 0 },
+  { value: 'quenya-inspired', label: 'Quenya-inspired', family: 'Elven', code: 1 },
+  { value: 'sindarin-inspired', label: 'Sindarin-inspired', family: 'Elven', code: 2 },
+  { value: 'english', label: 'English', family: 'Language', code: 3 },
+  { value: 'french', label: 'French', family: 'Language', code: 4 },
+  { value: 'german', label: 'German', family: 'Language', code: 5 },
+  { value: 'orcish', label: 'Orcish', family: 'Fantasy', code: 6 },
+  { value: 'gnomish', label: 'Gnomish', family: 'Fantasy', code: 7 },
+  { value: 'infernal', label: 'Infernal', family: 'Otherworldly', code: 8 },
+  { value: 'abyssal', label: 'Abyssal', family: 'Otherworldly', code: 9 },
+  { value: 'cthulhu-mythos-inspired', label: 'Cthulhu Mythos-inspired', family: 'Otherworldly', code: 10 },
 ]
 
+const maxSeed = 18446744073709551615n
 const seed = ref('23')
 const kind = ref<NameKind>('river')
 const profile = ref<NameProfile>('orcish')
@@ -58,11 +60,39 @@ const isGenerating = ref(false)
 const errorMessage = ref('')
 const copiedId = ref<number | null>(null)
 let nextResultId = 0
+let wasmGenerator: Promise<WasmGenerator> | undefined
 
+const selectedKind = computed(() => kinds.find((item) => item.value === kind.value)!)
 const selectedProfile = computed(() => profiles.find((item) => item.value === profile.value)!)
 const latest = computed(() => results.value[0])
 const latestKind = computed(() => kinds.find((item) => item.value === latest.value?.kind)?.label ?? '')
 const latestProfile = computed(() => profiles.find((item) => item.value === latest.value?.profile)?.label ?? '')
+
+async function getWasmGenerator() {
+  if (!wasmGenerator) {
+    wasmGenerator = (async () => {
+      const moduleUrl = `${import.meta.env.BASE_URL}wasm/name_generator.js`
+      const response = await fetch(moduleUrl)
+      if (!response.ok) throw new Error('Could not load the WebAssembly module.')
+      const source = await response.text()
+      const blobUrl = URL.createObjectURL(new Blob([source], { type: 'text/javascript' }))
+      try {
+        const { default: createGenerator } = await import(/* @vite-ignore */ blobUrl) as { default: WasmFactory }
+        return await createGenerator({
+          locateFile: (path) => `${import.meta.env.BASE_URL}wasm/${path}`,
+        })
+      } finally {
+        URL.revokeObjectURL(blobUrl)
+      }
+    })()
+  }
+  try {
+    return await wasmGenerator
+  } catch (error) {
+    wasmGenerator = undefined
+    throw error
+  }
+}
 
 async function generateNames() {
   errorMessage.value = ''
@@ -75,24 +105,18 @@ async function generateNames() {
 
   isGenerating.value = true
   try {
-    const params = new URLSearchParams({
-      seed: seed.value,
-      kind: kind.value,
-      profile: profile.value,
-      count: String(batchSize.value),
-    })
-    const response = await fetch(`/api/generate?${params}`)
-    const payload = (await response.json()) as GeneratorResponse
-    if (!response.ok) throw new Error(payload.error ?? 'Name generation failed.')
-
+    const generator = await getWasmGenerator()
     const firstSeed = BigInt(seed.value)
-    const batch = payload.names.map((name, index) => ({
+    const batch = Array.from({ length: batchSize.value }, (_, index) => {
+      const itemSeed = (firstSeed + BigInt(index)) & maxSeed
+      return {
       id: nextResultId++,
-      name,
-      seed: String((firstSeed + BigInt(index)) & 18446744073709551615n),
+      name: generator.generateName(String(itemSeed), selectedKind.value.code, selectedProfile.value.code),
+      seed: String(itemSeed),
       kind: kind.value,
       profile: profile.value,
-    }))
+      }
+    })
     results.value = [...batch, ...results.value].slice(0, 24)
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : 'Name generation failed.'
@@ -129,7 +153,7 @@ onMounted(generateNames)
         <span class="wordmark-mark">N<span>G</span></span>
         <span>NAME<br />GENERATOR</span>
       </a>
-      <div class="engine-status"><span class="status-dot"></span> C++ ENGINE <span class="status-divider">/</span> LOCAL</div>
+      <div class="engine-status"><span class="status-dot"></span> C++ <span class="status-divider">/</span> WEBASSEMBLY</div>
     </header>
 
     <section id="top" class="title-row">

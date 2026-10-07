@@ -2,10 +2,35 @@
 
 A dependency-free C++20 library for deterministic procedural names. `NameKind` identifies the
 caller-defined use of a name, and `NameProfile` selects its broad sound profile. The Quenya- and
-Sindarin-inspired profiles use original syllable fragments informed by phonological descriptions;
-they do not generate either constructed language or copy its vocabulary. Orcish, Gnomish, Infernal,
-Abyssal, and Cthulhu Mythos-inspired profiles similarly use original sound fragments, not canonical
-character or creature names.
+Sindarin-inspired profiles use invented syllable combinations informed by phonological descriptions;
+they are not translations. English, French, and German profiles use broad sound patterns informed by
+the references below. Orcish, Gnomish, Infernal, and Abyssal are original, genre-inspired sound
+profiles rather than representations of a particular published language. The Cthulhu Mythos profile
+recombines fragments adapted from Mythos nomenclature and can produce recognizable canonical names.
+
+## Attributions and bibliography
+
+### Phonological references
+
+- Tolkien, J. R. R. *The Lord of the Rings*. Appendices E and F. George Allen & Unwin, 1954-1955.
+	The Quenya- and Sindarin-inspired profiles draw on the broad sound descriptions; they do not
+	implement either language.
+- Roach, Peter. *English Phonetics and Phonology: A Practical Course*. 4th ed. Cambridge University
+	Press, 2009.
+- Tranel, Bernard. *The Sounds of French: An Introduction*. Cambridge University Press, 1987.
+- Wiese, Richard. *The Phonology of German*. Clarendon Press, 1996.
+
+These works inform general phonological tendencies only. The generator's syllable inventories are
+original combinations, not copied examples or a substitute for linguistic analysis.
+
+### Cthulhu Mythos references
+
+- Lovecraft, H. P. "The Call of Cthulhu." *Weird Tales*, February 1928. [Text](https://www.hplovecraft.com/writings/texts/fiction/cc.aspx).
+- Lovecraft, H. P. "The Dunwich Horror." *Weird Tales*, April 1929. [Text](https://www.hplovecraft.com/writings/texts/fiction/dh.aspx).
+- Lovecraft, H. P. "The Whisperer in Darkness." *Weird Tales*, August 1931. [Text](https://www.hplovecraft.com/writings/texts/fiction/wid.aspx).
+
+These stories inform the Mythos profile's fragment choices. That profile is an homage for
+procedural naming, not an attempt to extend or define Mythos canon.
 
 ## Build and test
 
@@ -17,21 +42,24 @@ cmake --build --preset release
 ctest --preset release
 ```
 
-## Windows demo UI
+## WebAssembly demo and GitHub Pages
 
-The Vue demo calls the same C++ generator through a local command-line bridge. From the repository
-root, open a Visual Studio Developer PowerShell (or another shell with the MSVC environment loaded),
-then build the bridge and start the Vite app:
+The Vue demo runs the C++ generator compiled to WebAssembly, so it does not need a local server-side
+API. Install and activate Emscripten 6.0.11, then from the repository root:
 
 ```powershell
-cmake --preset release
-cmake --build --preset release --target name_generator_cli
+Set-ExecutionPolicy -Scope Process Bypass -Force
+. "$HOME\emsdk\emsdk_env.ps1"
 npm.cmd --prefix web install
 npm.cmd --prefix web run dev
 ```
 
-Open the local URL printed by Vite. Change the seed, name kind, sound profile, or batch size to
-inspect repeatable outputs. Node.js and an MSVC C++20 toolchain are required.
+The `predev` script builds the wasm module before Vite starts. To create a production bundle, run
+`npm.cmd --prefix web run build`. The `wasm` CMake preset can also be configured and built directly.
+
+GitHub Actions deploys the static app to Pages when changes are pushed to `main`, or when the Pages
+workflow is run manually. The deployment serves the Vue app and its wasm module under the repository
+path.
 
 ## Use from another CMake project
 
@@ -44,3 +72,7 @@ target_link_libraries(my_app PRIVATE NameGenerator::NameGenerator)
 
 For an installed library, use `find_package(NameGenerator CONFIG REQUIRED)` and link the same
 target. Install it with `cmake --install build/release --prefix <install-prefix>`.
+
+## License
+
+This project is licensed under the Apache License 2.0. See [LICENSE](LICENSE) for the full text.
