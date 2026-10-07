@@ -11,6 +11,10 @@ enum class NameKind : std::uint8_t {
     Generic,
     River,
     OceanCurrent,
+    Person,
+    Mountain,
+    House,
+    Sword,
 };
 
 enum class NameProfile : std::uint8_t {
@@ -25,6 +29,7 @@ enum class NameProfile : std::uint8_t {
     Infernal,
     Abyssal,
     CthulhuMythosInspired,
+    FaeInspired,
 };
 
 // Names are deterministic for a seed, kind, and profile.

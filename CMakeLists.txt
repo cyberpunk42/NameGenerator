@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.24)
 
-project(NameGenerator VERSION 0.1.0 DESCRIPTION "Reusable procedural name generator" LANGUAGES CXX)
+project(NameGenerator VERSION 0.1.1 DESCRIPTION "Reusable procedural name generator" LANGUAGES CXX)
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)

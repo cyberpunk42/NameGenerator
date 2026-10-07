@@ -99,6 +99,17 @@ h2 { margin: 0; color: var(--ink); font-size: 16px; font-weight: 600; }
 .copy-button { width: 32px; min-width: 32px; height: 32px; color: #658076; }
 .copy-button:hover { color: var(--coral); }
 .copied-mark { color: var(--forest); font: 9px var(--mono); }
+.reference-section { padding: 30px 0 34px; border-bottom: 1px solid var(--ink); }
+.reference-heading { max-width: 920px; }
+.reference-intro { margin: 15px 0 0; color: #43564d; font-size: 12px; line-height: 1.7; }
+.reference-section a { color: var(--forest); text-decoration-color: #98aa9e; text-underline-offset: 3px; }
+.reference-section a:hover { color: var(--coral); text-decoration-color: currentColor; }
+.reference-content { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; margin-top: 27px; }
+.reference-group { min-width: 0; padding-top: 13px; border-top: 1px solid var(--line); }
+.reference-group h3 { margin: 0 0 12px; color: var(--forest); font: 10px/1.4 var(--mono); text-transform: uppercase; }
+.source-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; color: #43564d; font-size: 11px; line-height: 1.6; }
+.source-list cite { font-style: italic; }
+.source-note { margin: 14px 0 0; color: var(--muted); font-size: 10px; line-height: 1.65; }
 .footer-line { min-height: 46px; display: flex; justify-content: space-between; align-items: center; color: #738078; font-size: 8px; }
 .footer-line b { padding: 0 4px; color: var(--coral); }
 .footer-star { padding-left: 6px; color: var(--coral); font-size: 12px; }
@@ -119,6 +130,7 @@ h2 { margin: 0; color: var(--ink); font-size: 16px; font-weight: 600; }
   .feature-result { min-height: 170px; }
   .feature-name { font-size: 48px; }
   .result-list { max-height: none; }
+  .reference-content { grid-template-columns: minmax(0, 1fr); gap: 24px; }
 }
 @media (max-width: 420px) {
   #app { padding: 0 12px; }

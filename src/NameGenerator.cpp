@@ -69,6 +69,10 @@ constexpr const char* kCthulhuStarts[] = {"Cth", "Dho", "G'", "Hast", "Ia", "Kth
 constexpr const char* kCthulhuMiddles[] = {"a", "aa", "ai", "au", "og", "oth", "ul", "ur", "yth", "'a", "'u"};
 constexpr const char* kCthulhuEnds[] = {"ath", "g'n", "hoth", "loth", "oggua", "on", "oth", "ulhu", "yog", "yr"};
 
+constexpr const char* kFaeStarts[] = {"Ael", "Bryn", "Cael", "Eira", "Fael", "Gwen", "Ily", "Leth", "Mae", "Nim", "Rhi", "Sio", "Tala", "Vael", "Wyn"};
+constexpr const char* kFaeMiddles[] = {"a", "ae", "ai", "e", "ei", "ia", "ie", "il", "o", "ui", "y", "wyn"};
+constexpr const char* kFaeEnds[] = {"a", "en", "eth", "ia", "iel", "in", "is", "ith", "ora", "wen"};
+
 template <std::size_t StartCount, std::size_t MiddleCount, std::size_t EndCount>
 SyllableSet makeSet(const char* const (&starts)[StartCount], const char* const (&middles)[MiddleCount],
                     const char* const (&ends)[EndCount])
@@ -99,6 +103,8 @@ SyllableSet syllablesFor(NameProfile profile)
         return makeSet(kAbyssalStarts, kAbyssalMiddles, kAbyssalEnds);
     case NameProfile::CthulhuMythosInspired:
         return makeSet(kCthulhuStarts, kCthulhuMiddles, kCthulhuEnds);
+    case NameProfile::FaeInspired:
+        return makeSet(kFaeStarts, kFaeMiddles, kFaeEnds);
     case NameProfile::Generic:
     default:
         return makeSet(kStarts, kMiddles, kEnds);
@@ -107,6 +113,8 @@ SyllableSet syllablesFor(NameProfile profile)
 
 } // namespace
 
+// Select a profile's syllables, seed the RNG from the seed/kind/profile, then assemble
+// a start, optional middle, and ending. Retry endings that create an awkward join.
 std::string generateName(std::uint64_t seed, NameKind kind, NameProfile profile)
 {
     const SyllableSet set = syllablesFor(profile);

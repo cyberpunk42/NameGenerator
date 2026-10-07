@@ -1,12 +1,19 @@
 # NameGenerator
 
-A dependency-free C++20 library for deterministic procedural names. `NameKind` identifies the
-caller-defined use of a name, and `NameProfile` selects its broad sound profile. The Quenya- and
-Sindarin-inspired profiles use invented syllable combinations informed by phonological descriptions;
-they are not translations. English, French, and German profiles use broad sound patterns informed by
-the references below. Orcish, Gnomish, Infernal, and Abyssal are original, genre-inspired sound
-profiles rather than representations of a particular published language. The Cthulhu Mythos profile
-recombines fragments adapted from Mythos nomenclature and can produce recognizable canonical names.
+This is a small, dependency-free C++20 name generator and web demo I built for fun while using GitHub
+Copilot to test its capabilities and learn about AI agent development. It generates deterministic
+names from a seed, a name kind, and a broad sound profile. Please try it out and share feedback by
+[creating an issue in the GitHub repository](https://github.com/cyberpunk42/NameGenerator/issues).
+
+`NameKind` identifies the caller-defined use of a name, and `NameProfile` selects its broad sound
+profile. The Quenya- and Sindarin-inspired profiles use invented syllable combinations informed by
+phonological descriptions; they are not translations. English, French, and German profiles use broad
+sound patterns informed by the references below. Orcish, Gnomish, Infernal, and Abyssal are original,
+genre-inspired sound profiles rather than representations of a particular published language. The
+Cthulhu Mythos profile recombines fragments adapted from Mythos nomenclature and can produce
+recognizable canonical names. The Fae-inspired profile uses original syllable combinations informed
+by historical Celtic fair-folk traditions; it does not represent a single language or copy names from
+modern fiction.
 
 ## Attributions and bibliography
 
@@ -19,9 +26,13 @@ recombines fragments adapted from Mythos nomenclature and can produce recognizab
 	Press, 2009.
 - Tranel, Bernard. *The Sounds of French: An Introduction*. Cambridge University Press, 1987.
 - Wiese, Richard. *The Phonology of German*. Clarendon Press, 1996.
+- Keightley, Thomas. *The Fairy Mythology: Illustrative of the Romance and Superstition of Various
+	Countries*. Revised and enlarged edition, 1870. [Project Gutenberg eBook 41006](https://www.gutenberg.org/ebooks/41006).
+- Evans-Wentz, W. Y. *The Fairy-Faith in Celtic Countries*. 1911. [Project Gutenberg eBook 34853](https://www.gutenberg.org/ebooks/34853).
 
 These works inform general phonological tendencies only. The generator's syllable inventories are
-original combinations, not copied examples or a substitute for linguistic analysis.
+original combinations, not copied examples or a substitute for linguistic analysis. The folklore
+references inform broad cultural context, not a universal system of Fae names.
 
 ### Cthulhu Mythos references
 

@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { Copy, Dices, RotateCcw } from '@lucide/vue'
 
-type NameKind = 'generic' | 'river' | 'ocean-current'
+type NameKind = 'generic' | 'river' | 'ocean-current' | 'person' | 'mountain' | 'house' | 'sword'
 type NameProfile =
   | 'generic'
   | 'quenya-inspired'
@@ -15,6 +15,7 @@ type NameProfile =
   | 'infernal'
   | 'abyssal'
   | 'cthulhu-mythos-inspired'
+  | 'fae-inspired'
 
 interface NameResult {
   id: number
@@ -34,6 +35,10 @@ const kinds: { value: NameKind; label: string; code: number }[] = [
   { value: 'generic', label: 'Generic', code: 0 },
   { value: 'river', label: 'River', code: 1 },
   { value: 'ocean-current', label: 'Ocean current', code: 2 },
+  { value: 'person', label: 'Person', code: 3 },
+  { value: 'mountain', label: 'Mountain', code: 4 },
+  { value: 'house', label: 'House', code: 5 },
+  { value: 'sword', label: 'Sword', code: 6 },
 ]
 
 const profiles: { value: NameProfile; label: string; family: string; code: number }[] = [
@@ -48,6 +53,7 @@ const profiles: { value: NameProfile; label: string; family: string; code: numbe
   { value: 'infernal', label: 'Infernal', family: 'Otherworldly', code: 8 },
   { value: 'abyssal', label: 'Abyssal', family: 'Otherworldly', code: 9 },
   { value: 'cthulhu-mythos-inspired', label: 'Cthulhu Mythos-inspired', family: 'Otherworldly', code: 10 },
+  { value: 'fae-inspired', label: 'Fae-inspired', family: 'Otherworldly', code: 11 },
 ]
 
 const maxSeed = 18446744073709551615n
@@ -239,6 +245,39 @@ onMounted(generateNames)
           </li>
         </ol>
       </section>
+    </section>
+
+    <section class="reference-section" aria-labelledby="about-heading">
+      <div class="reference-heading">
+        <div class="section-title"><span class="section-index">03</span><h2 id="about-heading">About &amp; sources</h2></div>
+        <p class="reference-intro">This is a small, dependency-free C++20 name generator and web demo built for fun with GitHub Copilot, to test its capabilities and learn about AI agent development. It generates deterministic names from a seed, a name kind, and a broad sound profile. Please try it out and share feedback by <a href="https://github.com/cyberpunk42/NameGenerator/issues" target="_blank" rel="noreferrer">creating an issue in the GitHub repository</a>.</p>
+        <p class="reference-intro">The Quenya- and Sindarin-inspired profiles use invented syllable combinations informed by phonological descriptions; they are not translations. English, French, and German use broad sound patterns informed by the references below. Orcish, Gnomish, Infernal, and Abyssal are original, genre-inspired profiles, not representations of a particular published language. The Cthulhu Mythos profile recombines fragments adapted from Mythos nomenclature and can produce recognizable canonical names. The Fae-inspired profile uses original syllable combinations informed by historical Celtic fair-folk traditions; it does not represent a single language or copy names from modern fiction.</p>
+      </div>
+
+      <div class="reference-content">
+        <article class="reference-group">
+          <h3>Phonological references</h3>
+          <ul class="source-list">
+            <li><cite>Tolkien, J. R. R. The Lord of the Rings.</cite> Appendices E and F. George Allen &amp; Unwin, 1954-1955. These profiles draw on broad sound descriptions; they do not implement either language.</li>
+            <li><cite>Roach, Peter. English Phonetics and Phonology: A Practical Course.</cite> 4th ed. Cambridge University Press, 2009.</li>
+            <li><cite>Tranel, Bernard. The Sounds of French: An Introduction.</cite> Cambridge University Press, 1987.</li>
+            <li><cite>Wiese, Richard. The Phonology of German.</cite> Clarendon Press, 1996.</li>
+            <li><cite>Keightley, Thomas. The Fairy Mythology: Illustrative of the Romance and Superstition of Various Countries.</cite> Revised and enlarged edition, 1870. <a href="https://www.gutenberg.org/ebooks/41006" target="_blank" rel="noreferrer">Project Gutenberg eBook 41006</a>.</li>
+            <li><cite>Evans-Wentz, W. Y. The Fairy-Faith in Celtic Countries.</cite> 1911. <a href="https://www.gutenberg.org/ebooks/34853" target="_blank" rel="noreferrer">Project Gutenberg eBook 34853</a>.</li>
+          </ul>
+          <p class="source-note">These works inform general phonological tendencies only. The syllable inventories are original combinations, not copied examples or a substitute for linguistic analysis. The folklore references provide broad cultural context, not a universal system of Fae names.</p>
+        </article>
+
+        <article class="reference-group">
+          <h3>Cthulhu Mythos references</h3>
+          <ul class="source-list">
+            <li><cite>Lovecraft, H. P. “The Call of Cthulhu.” Weird Tales, February 1928.</cite> <a href="https://www.hplovecraft.com/writings/texts/fiction/cc.aspx" target="_blank" rel="noreferrer">Read the story</a>.</li>
+            <li><cite>Lovecraft, H. P. “The Dunwich Horror.” Weird Tales, April 1929.</cite> <a href="https://www.hplovecraft.com/writings/texts/fiction/dh.aspx" target="_blank" rel="noreferrer">Read the story</a>.</li>
+            <li><cite>Lovecraft, H. P. “The Whisperer in Darkness.” Weird Tales, August 1931.</cite> <a href="https://www.hplovecraft.com/writings/texts/fiction/wid.aspx" target="_blank" rel="noreferrer">Read the story</a>.</li>
+          </ul>
+          <p class="source-note">These stories inform the Mythos profile’s fragment choices. That profile is an homage for procedural naming, not an attempt to extend or define Mythos canon.</p>
+        </article>
+      </div>
     </section>
 
     <footer class="footer-line"><span>NAME GENERATOR <b>/</b> C++20</span><span>REPEATABLE BY SEED <span class="footer-star">*</span></span></footer>

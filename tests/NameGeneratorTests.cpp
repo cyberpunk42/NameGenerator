@@ -23,11 +23,19 @@ int main()
     passed &= check(generateName(7) == generateName(7), "default profile is deterministic");
     passed &= check(generateName(7) != generateName(8), "different seeds produce different names");
 
+    constexpr std::array kinds = {NameKind::Generic, NameKind::River, NameKind::OceanCurrent,
+                                  NameKind::Person, NameKind::Mountain, NameKind::House, NameKind::Sword};
+    for (NameKind kind : kinds) {
+        const std::string name = generateName(7, kind);
+        passed &= check(!name.empty(), "kind produces a non-empty name");
+        passed &= check(name == generateName(7, kind), "kind is deterministic");
+    }
+
     constexpr std::array profiles = {NameProfile::Generic, NameProfile::QuenyaInspired,
                                      NameProfile::SindarinInspired, NameProfile::English,
                                      NameProfile::French, NameProfile::German, NameProfile::Orcish,
                                      NameProfile::Gnomish, NameProfile::Infernal, NameProfile::Abyssal,
-                                     NameProfile::CthulhuMythosInspired};
+                                     NameProfile::CthulhuMythosInspired, NameProfile::FaeInspired};
     const std::string genericName = generateName(7, NameKind::River, NameProfile::Generic);
     for (NameProfile profile : profiles) {
         const std::string name = generateName(7, NameKind::River, profile);

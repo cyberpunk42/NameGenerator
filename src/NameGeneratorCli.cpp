@@ -32,6 +32,14 @@ bool parseKind(std::string_view value, namegen::NameKind& kind)
         kind = namegen::NameKind::River;
     else if (value == "ocean-current")
         kind = namegen::NameKind::OceanCurrent;
+    else if (value == "person")
+        kind = namegen::NameKind::Person;
+    else if (value == "mountain")
+        kind = namegen::NameKind::Mountain;
+    else if (value == "house")
+        kind = namegen::NameKind::House;
+    else if (value == "sword")
+        kind = namegen::NameKind::Sword;
     else
         return false;
     return true;
@@ -61,6 +69,8 @@ bool parseProfile(std::string_view value, namegen::NameProfile& profile)
         profile = namegen::NameProfile::Abyssal;
     else if (value == "cthulhu-mythos-inspired")
         profile = namegen::NameProfile::CthulhuMythosInspired;
+    else if (value == "fae-inspired")
+        profile = namegen::NameProfile::FaeInspired;
     else
         return false;
     return true;
