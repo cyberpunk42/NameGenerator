@@ -30,6 +30,8 @@ enum class NameProfile : std::uint8_t {
     Abyssal,
     CthulhuMythosInspired,
     FaeInspired,
+    KlingonInspired,
+    DothrakiInspired,
 };
 
 // Names are deterministic for a seed, kind, and profile.

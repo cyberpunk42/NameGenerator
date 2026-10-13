@@ -73,6 +73,14 @@ constexpr const char* kFaeStarts[] = {"Ael", "Bryn", "Cael", "Eira", "Fael", "Gw
 constexpr const char* kFaeMiddles[] = {"a", "ae", "ai", "e", "ei", "ia", "ie", "il", "o", "ui", "y", "wyn"};
 constexpr const char* kFaeEnds[] = {"a", "en", "eth", "ia", "iel", "in", "is", "ith", "ora", "wen"};
 
+constexpr const char* kKlingonStarts[] = {"B", "ch", "D", "gh", "j", "l", "m", "ng", "p", "Q", "q", "r", "S", "tlh", "v", "w"};
+constexpr const char* kKlingonMiddles[] = {"a", "e", "I", "o", "u", "agh", "ar", "ej", "or", "uy"};
+constexpr const char* kKlingonEnds[] = {"ch", "D", "gh", "j", "l", "m", "ng", "p", "q", "r", "t", "v", "w"};
+
+constexpr const char* kDothrakiStarts[] = {"A", "D", "G", "H", "J", "K", "Kh", "M", "N", "Q", "R", "S", "Sh", "T", "V", "Z", "Zh"};
+constexpr const char* kDothrakiMiddles[] = {"a", "e", "i", "o", "u", "ae", "ak", "ath", "ei", "ir", "oa", "y"};
+constexpr const char* kDothrakiEnds[] = {"ak", "ar", "as", "ath", "e", "i", "ir", "ok", "on", "os", "th", "vo", "y"};
+
 template <std::size_t StartCount, std::size_t MiddleCount, std::size_t EndCount>
 SyllableSet makeSet(const char* const (&starts)[StartCount], const char* const (&middles)[MiddleCount],
                     const char* const (&ends)[EndCount])
@@ -105,6 +113,10 @@ SyllableSet syllablesFor(NameProfile profile)
         return makeSet(kCthulhuStarts, kCthulhuMiddles, kCthulhuEnds);
     case NameProfile::FaeInspired:
         return makeSet(kFaeStarts, kFaeMiddles, kFaeEnds);
+    case NameProfile::KlingonInspired:
+        return makeSet(kKlingonStarts, kKlingonMiddles, kKlingonEnds);
+    case NameProfile::DothrakiInspired:
+        return makeSet(kDothrakiStarts, kDothrakiMiddles, kDothrakiEnds);
     case NameProfile::Generic:
     default:
         return makeSet(kStarts, kMiddles, kEnds);

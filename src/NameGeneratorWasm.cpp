@@ -16,7 +16,7 @@ std::string generateNameForWeb(const std::string& seedText, int kindValue, int p
         || kindValue < static_cast<int>(namegen::NameKind::Generic)
         || kindValue > static_cast<int>(namegen::NameKind::Sword)
         || profileValue < static_cast<int>(namegen::NameProfile::Generic)
-        || profileValue > static_cast<int>(namegen::NameProfile::FaeInspired))
+        || profileValue > static_cast<int>(namegen::NameProfile::DothrakiInspired))
         return {};
 
     return namegen::generateName(seed, static_cast<namegen::NameKind>(kindValue),

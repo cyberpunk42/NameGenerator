@@ -1,13 +1,18 @@
 # NameGenerator
 
-This is a small, dependency-free C++20 name generator and web demo I built for fun while using GitHub
-Copilot to test its capabilities and learn about AI agent development. It generates deterministic
-names from a seed, a name kind, and a broad sound profile. Please try it out and share feedback by
+This is a small, dependency-free C++20 name generator and web demo I built for fun using GitHub
+Copilot.  Mainly this was a learning exercise to test the capabilities of the platform. The intent 
+is to build a reuseable library for name generation for worldbuilding, and this web interface is 
+simply a demo of the name generation ability.  
+
+It generates deterministic names from a seed (random integer), a name kind (Person, River, Mountain,
+ etc), and a broad sound profile (Orcish, English, Quenya, etc). Please try it out and share feedback by
 [creating an issue in the GitHub repository](https://github.com/cyberpunk42/NameGenerator/issues).
 
 `NameKind` identifies the caller-defined use of a name, and `NameProfile` selects its broad sound
-profile. The Quenya- and Sindarin-inspired profiles use invented syllable combinations informed by
-phonological descriptions; they are not translations. English, French, and German profiles use broad
+profile. The Quenya-, Sindarin-, Klingon-, and Dothraki-inspired profiles use invented syllable
+combinations informed by phonological descriptions; they are not translations or implementations of
+those languages. English, French, and German profiles use broad
 sound patterns informed by the references below. Orcish, Gnomish, Infernal, and Abyssal are original,
 genre-inspired sound profiles rather than representations of a particular published language. The
 Cthulhu Mythos profile recombines fragments adapted from Mythos nomenclature and can produce
@@ -26,6 +31,8 @@ modern fiction.
 	Press, 2009.
 - Tranel, Bernard. *The Sounds of French: An Introduction*. Cambridge University Press, 1987.
 - Wiese, Richard. *The Phonology of German*. Clarendon Press, 1996.
+- Okrand, Marc. *The Klingon Dictionary*. Pocket Books, 1992.
+- Peterson, David J. *Living Language Dothraki: A Conversational Course Based on the Hit Original HBO Series Game of Thrones*. Living Language, 2014.
 - Keightley, Thomas. *The Fairy Mythology: Illustrative of the Romance and Superstition of Various
 	Countries*. Revised and enlarged edition, 1870. [Project Gutenberg eBook 41006](https://www.gutenberg.org/ebooks/41006).
 - Evans-Wentz, W. Y. *The Fairy-Faith in Celtic Countries*. 1911. [Project Gutenberg eBook 34853](https://www.gutenberg.org/ebooks/34853).
@@ -45,13 +52,16 @@ procedural naming, not an attempt to extend or define Mythos canon.
 
 ## Build and test
 
-Requires CMake 3.24+, Ninja, and a C++20 compiler.
+Requires CMake 3.24+ and a C++20 compiler. On Windows, install the Visual Studio 2022 C++ build
+tools and use the Visual Studio preset; it configures MSVC without requiring a Developer PowerShell:
 
 ```powershell
-cmake --preset release
-cmake --build --preset release
-ctest --preset release
+cmake --preset msvc
+cmake --build --preset msvc-release
+ctest --preset msvc-release
 ```
+
+The `debug` and `release` Ninja presets remain available for other native toolchains.
 
 ## WebAssembly demo and GitHub Pages
 

@@ -35,7 +35,8 @@ int main()
                                      NameProfile::SindarinInspired, NameProfile::English,
                                      NameProfile::French, NameProfile::German, NameProfile::Orcish,
                                      NameProfile::Gnomish, NameProfile::Infernal, NameProfile::Abyssal,
-                                     NameProfile::CthulhuMythosInspired, NameProfile::FaeInspired};
+                                     NameProfile::CthulhuMythosInspired, NameProfile::FaeInspired,
+                                     NameProfile::KlingonInspired, NameProfile::DothrakiInspired};
     const std::string genericName = generateName(7, NameKind::River, NameProfile::Generic);
     for (NameProfile profile : profiles) {
         const std::string name = generateName(7, NameKind::River, profile);

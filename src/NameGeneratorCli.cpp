@@ -71,6 +71,10 @@ bool parseProfile(std::string_view value, namegen::NameProfile& profile)
         profile = namegen::NameProfile::CthulhuMythosInspired;
     else if (value == "fae-inspired")
         profile = namegen::NameProfile::FaeInspired;
+    else if (value == "klingon-inspired")
+        profile = namegen::NameProfile::KlingonInspired;
+    else if (value == "dothraki-inspired")
+        profile = namegen::NameProfile::DothrakiInspired;
     else
         return false;
     return true;

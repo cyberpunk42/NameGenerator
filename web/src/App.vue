@@ -16,6 +16,8 @@ type NameProfile =
   | 'abyssal'
   | 'cthulhu-mythos-inspired'
   | 'fae-inspired'
+  | 'klingon-inspired'
+  | 'dothraki-inspired'
 
 interface NameResult {
   id: number
@@ -54,6 +56,8 @@ const profiles: { value: NameProfile; label: string; family: string; code: numbe
   { value: 'abyssal', label: 'Abyssal', family: 'Otherworldly', code: 9 },
   { value: 'cthulhu-mythos-inspired', label: 'Cthulhu Mythos-inspired', family: 'Otherworldly', code: 10 },
   { value: 'fae-inspired', label: 'Fae-inspired', family: 'Otherworldly', code: 11 },
+  { value: 'klingon-inspired', label: 'Klingon-inspired', family: 'Constructed', code: 12 },
+  { value: 'dothraki-inspired', label: 'Dothraki-inspired', family: 'Constructed', code: 13 },
 ]
 
 const maxSeed = 18446744073709551615n
@@ -251,7 +255,7 @@ onMounted(generateNames)
       <div class="reference-heading">
         <div class="section-title"><span class="section-index">03</span><h2 id="about-heading">About &amp; sources</h2></div>
         <p class="reference-intro">This is a small, dependency-free C++20 name generator and web demo built for fun with GitHub Copilot, to test its capabilities and learn about AI agent development. It generates deterministic names from a seed, a name kind, and a broad sound profile. Please try it out and share feedback by <a href="https://github.com/cyberpunk42/NameGenerator/issues" target="_blank" rel="noreferrer">creating an issue in the GitHub repository</a>.</p>
-        <p class="reference-intro">The Quenya- and Sindarin-inspired profiles use invented syllable combinations informed by phonological descriptions; they are not translations. English, French, and German use broad sound patterns informed by the references below. Orcish, Gnomish, Infernal, and Abyssal are original, genre-inspired profiles, not representations of a particular published language. The Cthulhu Mythos profile recombines fragments adapted from Mythos nomenclature and can produce recognizable canonical names. The Fae-inspired profile uses original syllable combinations informed by historical Celtic fair-folk traditions; it does not represent a single language or copy names from modern fiction.</p>
+        <p class="reference-intro">The Quenya-, Sindarin-, Klingon-, and Dothraki-inspired profiles use invented syllable combinations informed by phonological descriptions; they are not translations or implementations of those languages. English, French, and German use broad sound patterns informed by the references below. Orcish, Gnomish, Infernal, and Abyssal are original, genre-inspired profiles, not representations of a particular published language. The Cthulhu Mythos profile recombines fragments adapted from Mythos nomenclature and can produce recognizable canonical names. The Fae-inspired profile uses original syllable combinations informed by historical Celtic fair-folk traditions; it does not represent a single language or copy names from modern fiction.</p>
       </div>
 
       <div class="reference-content">
@@ -262,6 +266,8 @@ onMounted(generateNames)
             <li><cite>Roach, Peter. English Phonetics and Phonology: A Practical Course.</cite> 4th ed. Cambridge University Press, 2009.</li>
             <li><cite>Tranel, Bernard. The Sounds of French: An Introduction.</cite> Cambridge University Press, 1987.</li>
             <li><cite>Wiese, Richard. The Phonology of German.</cite> Clarendon Press, 1996.</li>
+            <li><cite>Okrand, Marc. The Klingon Dictionary.</cite> Pocket Books, 1992.</li>
+            <li><cite>Peterson, David J. Living Language Dothraki: A Conversational Course Based on the Hit Original HBO Series Game of Thrones.</cite> Living Language, 2014.</li>
             <li><cite>Keightley, Thomas. The Fairy Mythology: Illustrative of the Romance and Superstition of Various Countries.</cite> Revised and enlarged edition, 1870. <a href="https://www.gutenberg.org/ebooks/41006" target="_blank" rel="noreferrer">Project Gutenberg eBook 41006</a>.</li>
             <li><cite>Evans-Wentz, W. Y. The Fairy-Faith in Celtic Countries.</cite> 1911. <a href="https://www.gutenberg.org/ebooks/34853" target="_blank" rel="noreferrer">Project Gutenberg eBook 34853</a>.</li>
           </ul>
