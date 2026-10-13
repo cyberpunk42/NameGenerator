@@ -3,7 +3,7 @@
 This is a small, dependency-free C++20 name generator and web demo I built for fun using GitHub
 Copilot.  Mainly this was a learning exercise to test the capabilities of the platform. The intent 
 is to build a reuseable library for name generation for worldbuilding, and this web interface is 
-simply a demo of the name generation ability.  
+simply a demo of the name generation ability.  https://cyberpunk42.github.io/NameGenerator/
 
 It generates deterministic names from a seed (random integer), a name kind (Person, River, Mountain,
  etc), and a broad sound profile (Orcish, English, Quenya, etc). Please try it out and share feedback by
